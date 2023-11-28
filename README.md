@@ -1,4 +1,4 @@
-# Music Player App Using Compose Multiplatform
+# Music Player App Using Compose Multiplatform KMP
 
 This is a music player app built using Compose Multiplatform UI that works on Android, iOS, Desktop, and Web
 platforms. It uses the spotify api for fetching the top 50 charts and getting the trending albums. The Google login is still in pending
