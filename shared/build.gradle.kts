@@ -52,6 +52,7 @@ kotlin {
                 api("com.arkivanov.decompose:decompose:1.0.0-compose-experimental")
                 api("com.arkivanov.decompose:extensions-compose-jetbrains:1.0.0-compose-experimental")
                 implementation("com.arkivanov.essenty:lifecycle:1.0.0")
+                implementation("ir.mahozad.multiplatform:wavy-slider:1.0.0-rc")
             }
         }
         val androidMain by getting {
@@ -73,6 +74,7 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 implementation(compose.desktop.common)
+                implementation("uk.co.caprica:vlcj:4.8.2")
             }
         }
         val jsMain by getting {
@@ -82,7 +84,7 @@ kotlin {
 }
 
 android {
-    compileSdk = 33
+    compileSdk = 34
     namespace = "com.myapplication.common"
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -90,8 +92,8 @@ android {
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
     defaultConfig {
-        minSdk = 33
-        targetSdk = 33
+        minSdk = 24
+        targetSdk = 34
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
