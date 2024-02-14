@@ -5,10 +5,10 @@ plugins {
 
 kotlin {
     js(IR) {
-        moduleName = "music-app"
+        moduleName = "webApp"
         browser {
             commonWebpackConfig {
-                outputFileName = "music-app.js"
+                outputFileName = "webApp.js"
             }
         }
         binaries.executable()
