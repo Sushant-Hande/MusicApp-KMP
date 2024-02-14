@@ -146,9 +146,7 @@ internal fun ChartDetailsView(
                 ) {
                     var active by remember { mutableStateOf(false) }
                     Row(modifier = Modifier.fillMaxWidth()) {
-                        val painter = rememberAsyncImagePainter(
-                            track.track?.album?.images?.first()?.url.orEmpty()
-                        )
+                        val painter = rememberAsyncImagePainter(track.track?.album?.images?.first()?.url.orEmpty())
                         Box(modifier = Modifier
                             .clickable {
                                 onPlayTrack(track.track?.id.orEmpty())
