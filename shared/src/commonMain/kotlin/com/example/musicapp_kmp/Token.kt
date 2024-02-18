@@ -6,4 +6,4 @@ package com.example.musicapp_kmp
  */
 
 const val TOKEN =
-    "Bearer BQCnhya_3oZY3BanzwlMP8xstOByfhE-M6QqDN8rZ_M4GGwdyovSFXCHn076Q5wvArpjG-5v5W1PApWo4ohUM8S89uJ1K1MJ0q_IwUuTrW3bEHSOuNf6UqN8oUQtoUlM0ruHBMp--dkVQHZALf2VWJ1PlGHPlLEjI-8rqgjce0u3Dpc1ph5SA5wT043c6wGzr3rBm0wZTbsCysU1nvw"
+    "Bearer BQDGYjgKju4en3p1QvgJCefGCKHDvnrourelJ_uS9X7CRdzYiL_uNanL0JSiZ-ke33U-Apj4kzOu8p-tgrt18T9O2suBk085h1bArHOFmZRl5F2cZAkKR3v_VXdpYBoNmZVYYjctWubfoNgRXEqZiezcXnZj6MRtcAj12OkWSVIn0jZHXKLmS4zyZgky8ug0IQ-KBNV8D6dcZw7jLDk"

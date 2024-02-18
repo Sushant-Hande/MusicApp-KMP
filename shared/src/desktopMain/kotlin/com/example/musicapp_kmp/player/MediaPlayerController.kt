@@ -1,5 +1,6 @@
 package com.example.musicapp_kmp.player
 
+import kotlinx.coroutines.*
 import uk.co.caprica.vlcj.factory.discovery.NativeDiscovery
 import uk.co.caprica.vlcj.player.base.MediaPlayer
 import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter
@@ -10,35 +11,45 @@ import java.util.*
 actual class MediaPlayerController {
     private var mediaPlayer: MediaPlayer? = null
     private var listener: MediaPlayerListener? = null
+    val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     private fun initMediaPlayer() {
-        NativeDiscovery().discover()
+        scope.launch {
+            NativeDiscovery().discover()
 
-        mediaPlayer =
-                // see https://github.com/caprica/vlcj/issues/887#issuecomment-503288294 for why we're using CallbackMediaPlayerComponent for macOS.
-            if (isMacOS()) {
-                CallbackMediaPlayerComponent()
-            } else {
-                EmbeddedMediaPlayerComponent()
-            }.mediaPlayer()
+            mediaPlayer =
+                    // see https://github.com/caprica/vlcj/issues/887#issuecomment-503288294 for why we're using CallbackMediaPlayerComponent for macOS.
+                if (isMacOS()) {
+                    CallbackMediaPlayerComponent()
+                } else {
+                    EmbeddedMediaPlayerComponent()
+                }.mediaPlayer()
 
-        mediaPlayer?.events()?.addMediaPlayerEventListener(object : MediaPlayerEventAdapter() {
-            override fun mediaPlayerReady(mediaPlayer: MediaPlayer?) {
-                super.mediaPlayerReady(mediaPlayer)
-                listener?.onReady()
-            }
+            mediaPlayer?.events()?.addMediaPlayerEventListener(object : MediaPlayerEventAdapter() {
+                override fun mediaPlayerReady(mediaPlayer: MediaPlayer?) {
+                    super.mediaPlayerReady(mediaPlayer)
+                    listener?.onReady()
+                }
 
-            override fun finished(mediaPlayer: MediaPlayer?) {
-                super.finished(mediaPlayer)
-                listener?.onVideoCompleted()
-            }
+                override fun finished(mediaPlayer: MediaPlayer?) {
+                    super.finished(mediaPlayer)
+                    listener?.onVideoCompleted()
+                }
 
-            override fun error(mediaPlayer: MediaPlayer?) {
-                super.error(mediaPlayer)
-                listener?.onError()
-            }
-        })
+                override fun error(mediaPlayer: MediaPlayer?) {
+                    super.error(mediaPlayer)
+                    listener?.onError()
+                }
 
+                override fun positionChanged(mediaPlayer: MediaPlayer?, newPosition: Float) {
+                    super.positionChanged(mediaPlayer, newPosition)
+                    scope.launch(Dispatchers.IO) {
+                        delay(1000)
+                        listener?.onProgress(newPosition)
+                    }
+                }
+            })
+        }
     }
 
     actual fun prepare(
