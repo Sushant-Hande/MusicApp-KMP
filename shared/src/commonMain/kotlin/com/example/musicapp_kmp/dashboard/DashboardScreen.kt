@@ -27,7 +27,7 @@ import com.example.musicapp_kmp.decompose.DashboardMainComponent
 import com.example.musicapp_kmp.network.models.featuredplaylist.FeaturedPlayList
 import com.example.musicapp_kmp.network.models.newreleases.NewReleasedAlbums
 import com.example.musicapp_kmp.network.models.topfiftycharts.TopFiftyCharts
-import com.seiko.imageloader.rememberAsyncImagePainter
+import com.seiko.imageloader.rememberImagePainter
 
 
 /**
@@ -94,7 +94,7 @@ internal fun TopChartView(topFiftyCharts: TopFiftyCharts, navigateToDetails: (St
             .clip(RoundedCornerShape(20.dp))
             .padding(24.dp).clickable(onClick = { navigateToDetails(topFiftyCharts.id ?: "") })
     ) {
-        val painter = rememberAsyncImagePainter(
+        val painter = rememberImagePainter(
             topFiftyCharts.images?.first()?.url
                 ?: "https://www.linkpicture.com/q/vladimir-haltakov-PMfuunAfF2w-unsplash.jpg"
         )
@@ -168,7 +168,7 @@ internal fun FeaturedPlayLists(
                     Column(
                         modifier = Modifier.padding(16.dp)
                     ) {
-                        val painter = rememberAsyncImagePainter(
+                        val painter = rememberImagePainter(
                             playList.images?.first()?.url
                                 ?: "https://www.linkpicture.com/q/vladimir-haltakov-PMfuunAfF2w-unsplash.jpg"
                         )
@@ -242,7 +242,7 @@ internal fun NewReleases(
             items(items = newReleasedAlbums.albums?.items ?: emptyList()) { album ->
                 Box(Modifier.width(153.dp)) {
                     Column {
-                        val painter = rememberAsyncImagePainter(
+                        val painter = rememberImagePainter(
                             album.images?.first()?.url
                                 ?: "https://www.linkpicture.com/q/vladimir-haltakov-PMfuunAfF2w-unsplash.jpg"
                         )

@@ -20,7 +20,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.musicapp_kmp.decompose.DashboardMainComponent
 import com.example.musicapp_kmp.network.models.topfiftycharts.TopFiftyCharts
-import com.seiko.imageloader.rememberAsyncImagePainter
+import com.seiko.imageloader.rememberImagePainter
 
 
 /**
@@ -68,7 +68,7 @@ internal fun TopChartViewLarge(
         modifier = Modifier.clip(RoundedCornerShape(20.dp)).width(686.dp).height(450.dp)
             .padding(24.dp).clickable(onClick = { navigateToDetails(topFiftyCharts.id ?: "") })
     ) {
-        val painter = rememberAsyncImagePainter(
+        val painter = rememberImagePainter(
             topFiftyCharts.images?.first()?.url
                 ?: "https://www.linkpicture.com/q/vladimir-haltakov-PMfuunAfF2w-unsplash.jpg"
         )
