@@ -7,15 +7,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.example.musicapp_kmp.MainCommon
-import com.example.musicapp_kmp.decompose.MusicRoot
+import com.example.musicapp_kmp.network.SpotifyApiImpl
+import com.example.musicapp_kmp.player.MediaPlayerController
 import com.seiko.imageloader.ImageLoader
 import com.seiko.imageloader.LocalImageLoader
 import com.seiko.imageloader.cache.memory.maxSizePercent
 
 
 @Composable
-fun CommonMainWeb(root: MusicRoot) {
+fun CommonMainWeb(api: SpotifyApiImpl, mediaPlayerController: MediaPlayerController) {
     CompositionLocalProvider(
         LocalImageLoader provides ImageLoader {
             interceptor {
@@ -26,7 +26,7 @@ fun CommonMainWeb(root: MusicRoot) {
         },
     ) {
         Box(Modifier.background(color = Color(0xFF1A1E1F)).fillMaxSize()) {
-            MainCommon(root, true)
+            MainCommon(api, mediaPlayerController, true)
         }
     }
 }

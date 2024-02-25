@@ -7,9 +7,9 @@ kotlin {
     js(IR) {
         moduleName = "webApp"
         browser {
-            commonWebpackConfig {
-                outputFileName = "webApp.js"
-            }
+//            commonWebpackConfig {
+//                outputFileName = "webApp.js"
+//            }
         }
         binaries.executable()
     }

@@ -5,7 +5,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-
 data class Album(
     @SerialName("album_type")
     val albumType: String?,

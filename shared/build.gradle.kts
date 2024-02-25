@@ -1,10 +1,11 @@
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
-    kotlin("plugin.serialization")
+    //kotlin("plugin.serialization")
     id("com.android.library")
     id("kotlin-parcelize")
     id("org.jetbrains.compose")
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 val ktorVersion = extra["ktor.version"]
@@ -47,7 +48,7 @@ kotlin {
                 implementation("io.ktor:ktor-client-serialization:$ktorVersion")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
                 implementation("io.github.qdsfdhvh:image-loader:1.2.10")
 //                api("com.arkivanov.decompose:decompose:2.2.2")
 //                api("com.arkivanov.decompose:extensions-compose-jetbrains:2.2.2-compose-experimental")
