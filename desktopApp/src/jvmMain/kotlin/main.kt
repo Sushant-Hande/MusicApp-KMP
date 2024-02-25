@@ -12,12 +12,6 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import com.arkivanov.decompose.DefaultComponentContext
-import com.arkivanov.decompose.extensions.compose.jetbrains.lifecycle.LifecycleController
-import com.arkivanov.essenty.lifecycle.LifecycleRegistry
-import com.arkivanov.essenty.parcelable.ParcelableContainer
-import com.arkivanov.essenty.statekeeper.StateKeeperDispatcher
-import com.example.musicapp_kmp.decompose.MusicRootImpl
 import com.example.musicapp_kmp.network.SpotifyApiImpl
 import com.example.musicapp_kmp.player.MediaPlayerController
 import com.example.travelapp_kmp.CommonMainDesktop
@@ -28,24 +22,24 @@ import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 
 fun main() {
-    val lifecycle = LifecycleRegistry()
-    val stateKeeper = StateKeeperDispatcher(tryRestoreStateFromFile())
-
-    val rootComponent = runOnUiThread {
-        MusicRootImpl(
-            componentContext = DefaultComponentContext(
-                lifecycle = lifecycle,
-                stateKeeper = stateKeeper,
-            ), api = SpotifyApiImpl(), mediaPlayerController = MediaPlayerController()
-        )
-    }
+//    val lifecycle = LifecycleRegistry()
+//    val stateKeeper = StateKeeperDispatcher(tryRestoreStateFromFile())
+//
+//    val rootComponent = runOnUiThread {
+//        MusicRootImpl(
+//            componentContext = DefaultComponentContext(
+//                lifecycle = lifecycle,
+//                stateKeeper = stateKeeper,
+//            ), api = SpotifyApiImpl(), mediaPlayerController = MediaPlayerController()
+//        )
+//    }
 
     application {
         val windowState = rememberWindowState(
             position = WindowPosition.Aligned(Alignment.Center), size = getPreferredWindowSize(800, 800)
         )
 
-        LifecycleController(lifecycle, windowState)
+//        LifecycleController(lifecycle, windowState)
 
         var isCloseRequested by remember { mutableStateOf(false) }
 
@@ -54,13 +48,13 @@ fun main() {
             title = "MusicApp-KMP",
             state = windowState,
         ) {
-            CommonMainDesktop(rootComponent)
+            CommonMainDesktop(api = SpotifyApiImpl(), mediaPlayerController = MediaPlayerController())
             if (isCloseRequested) {
-                SaveStateDialog(
-                    onSaveState = { saveStateToFile(stateKeeper.save()) },
-                    onExitApplication = ::exitApplication,
-                    onDismiss = { isCloseRequested = false },
-                )
+//                SaveStateDialog(
+//                    onSaveState = { saveStateToFile(stateKeeper.save()) },
+//                    onExitApplication = ::exitApplication,
+//                    onDismiss = { isCloseRequested = false },
+//                )
             }
         }
     }
@@ -114,22 +108,22 @@ private fun SaveStateDialog(
 
 private const val SAVED_STATE_FILE_NAME = "saved_state.dat"
 
-private fun saveStateToFile(state: ParcelableContainer) {
-    ObjectOutputStream(File(SAVED_STATE_FILE_NAME).outputStream()).use { output ->
-        output.writeObject(state)
-    }
-}
-
-private fun tryRestoreStateFromFile(): ParcelableContainer? =
-    File(SAVED_STATE_FILE_NAME).takeIf(File::exists)?.let { file ->
-        try {
-            ObjectInputStream(file.inputStream()).use(ObjectInputStream::readObject) as ParcelableContainer
-        } catch (e: Exception) {
-            null
-        } finally {
-            file.delete()
-        }
-    }
-
+//private fun saveStateToFile(stateContainer) {
+//    ObjectOutputStream(File(SAVED_STATE_FILE_NAME).outputStream()).use { output ->
+//        output.writeObject(state)
+//    }
+//}
+//
+//private fun tryRestoreStateFromFile()Container? =
+//    File(SAVED_STATE_FILE_NAME).takeIf(File::exists)?.let { file ->
+//        try {
+//            ObjectInputStream(file.inputStream()).use(ObjectInputStream::readObject) as ParcelableContainer
+//        } catch (e: Exception) {
+//            null
+//        } finally {
+//            file.delete()
+//        }
+//    }
+//
 
 

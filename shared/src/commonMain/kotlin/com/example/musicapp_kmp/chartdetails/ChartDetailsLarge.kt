@@ -22,10 +22,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.example.musicapp_kmp.decompose.ChartDetailsComponent
 import com.example.musicapp_kmp.network.models.topfiftycharts.Item
 import com.example.musicapp_kmp.network.models.topfiftycharts.TopFiftyCharts
-import com.seiko.imageloader.rememberImagePainter
+import com.seiko.imageloader.rememberAsyncImagePainter
 
 
 /**
@@ -33,9 +32,12 @@ import com.seiko.imageloader.rememberImagePainter
  */
 @Composable
 internal fun ChartDetailsScreenLarge(
-    chartDetailsComponent: ChartDetailsComponent,
+    viewModel: ChartDetailsViewModel,
+    onPlayAllClicked: (List<Item>) -> Unit,
+    onPlayTrack: (String) -> Unit,
+    goBack: () -> Unit
 ) {
-    val state = chartDetailsComponent.viewModel.chartDetailsViewState.collectAsState()
+    val state = viewModel.chartDetailsViewState.collectAsState()
 
     when (val resultedState = state.value) {
         is ChartDetailsViewState.Failure -> Failure(resultedState.error)
@@ -43,8 +45,8 @@ internal fun ChartDetailsScreenLarge(
         is ChartDetailsViewState.Success -> ChartDetailsViewLarge(
             chartDetails = resultedState.chartDetails,
             playingTrackId = resultedState.playingTrackId,
-            onPlayAllClicked = { chartDetailsComponent.onOutPut(ChartDetailsComponent.Output.OnPlayAllSelected(it)) },
-            onPlayTrack = { chartDetailsComponent.onOutPut(ChartDetailsComponent.Output.OnTrackSelected(it)) }
+            onPlayAllClicked = onPlayAllClicked,
+            onPlayTrack = onPlayTrack
         )
     }
 
@@ -52,9 +54,7 @@ internal fun ChartDetailsScreenLarge(
         imageVector = Icons.Filled.ArrowBack,
         tint = Color(0xFFFACD66),
         contentDescription = "Forward",
-        modifier = Modifier.padding(all = 8.dp).size(32.dp).clickable(onClick = {
-            chartDetailsComponent.onOutPut(ChartDetailsComponent.Output.GoBack)
-        })
+        modifier = Modifier.padding(all = 8.dp).size(32.dp).clickable(onClick = goBack)
     )
 }
 
@@ -65,7 +65,7 @@ internal fun ChartDetailsViewLarge(
     onPlayTrack: (String) -> Unit,
     playingTrackId: String
 ) {
-    val painter = rememberImagePainter(chartDetails.images?.first()?.url.orEmpty())
+    val painter = rememberAsyncImagePainter(chartDetails.images?.first()?.url.orEmpty())
     val selectedTrack = remember { mutableStateOf(playingTrackId) }
 
     LaunchedEffect(playingTrackId) {
@@ -137,7 +137,7 @@ internal fun ChartDetailsViewLarge(
             ) {
                 Row(modifier = Modifier.fillMaxWidth()) {
                     var active by remember { mutableStateOf(false) }
-                    val painter = rememberImagePainter(
+                    val painter = rememberAsyncImagePainter(
                         track.track?.album?.images?.first()?.url.orEmpty()
                     )
                     Box(modifier = Modifier

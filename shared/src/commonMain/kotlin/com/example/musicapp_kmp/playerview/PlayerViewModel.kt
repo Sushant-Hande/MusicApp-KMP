@@ -1,12 +1,9 @@
 package com.example.musicapp_kmp.playerview
 
-import com.arkivanov.essenty.instancekeeper.InstanceKeeper
 import com.example.musicapp_kmp.decompose.PlayerComponent
-import com.example.musicapp_kmp.network.models.topfiftycharts.Item
 import com.example.musicapp_kmp.player.MediaPlayerController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -18,11 +15,11 @@ import kotlinx.coroutines.launch
  */
 class PlayerViewModel(
     mediaPlayerController: MediaPlayerController,
-    trackList: List<Item>,
     playerInputs: SharedFlow<PlayerComponent.Input>
-) : InstanceKeeper.Instance {
+) {
     private val viewModelScope = CoroutineScope(Dispatchers.Unconfined)
-    val chartDetailsViewState = MutableStateFlow(PlayerViewState(trackList = trackList, mediaPlayerController = mediaPlayerController))
+    val chartDetailsViewState =
+        MutableStateFlow(PlayerViewState(trackList = emptyList(), mediaPlayerController = mediaPlayerController))
 
     init {
         viewModelScope.launch {
@@ -38,7 +35,16 @@ class PlayerViewModel(
         }
     }
 
-    override fun onDestroy() {
-        viewModelScope.cancel()
+    companion object {
+        private lateinit var playerViewModel: PlayerViewModel
+        fun getPlayerViewModel(
+            mediaPlayerController: MediaPlayerController,
+            playerInputs: SharedFlow<PlayerComponent.Input>
+        ): PlayerViewModel {
+            if (!::playerViewModel.isInitialized) {
+                playerViewModel = PlayerViewModel(mediaPlayerController, playerInputs)
+            }
+            return playerViewModel
+        }
     }
 }

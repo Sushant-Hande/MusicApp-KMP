@@ -18,9 +18,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.example.musicapp_kmp.decompose.DashboardMainComponent
 import com.example.musicapp_kmp.network.models.topfiftycharts.TopFiftyCharts
-import com.seiko.imageloader.rememberImagePainter
+import com.seiko.imageloader.rememberAsyncImagePainter
 
 
 /**
@@ -29,17 +28,19 @@ import com.seiko.imageloader.rememberImagePainter
 
 @Composable
 internal fun DashboardScreenLarge(
-    component: DashboardMainComponent,
+    viewModel: DashboardViewModel,
+    navigateToDetails: (String) -> Unit
 ) {
-    val state = component.viewModel.dashboardState.collectAsState()
+    val state = viewModel.dashboardState.collectAsState()
 
     when (val resultedState = state.value) {
         is DashboardViewState.Failure -> Failure(resultedState.error)
         DashboardViewState.Loading -> Loading()
         is DashboardViewState.Success -> {
             DashboardViewLarge(
-                resultedState
-            ) { component.onOutPut(DashboardMainComponent.Output.PlaylistSelected(it)) }
+                dashboardState = resultedState,
+                navigateToDetails = navigateToDetails
+            )
         }
     }
 }
@@ -68,10 +69,7 @@ internal fun TopChartViewLarge(
         modifier = Modifier.clip(RoundedCornerShape(20.dp)).width(686.dp).height(450.dp)
             .padding(24.dp).clickable(onClick = { navigateToDetails(topFiftyCharts.id ?: "") })
     ) {
-        val painter = rememberImagePainter(
-            topFiftyCharts.images?.first()?.url
-                ?: "https://www.linkpicture.com/q/vladimir-haltakov-PMfuunAfF2w-unsplash.jpg"
-        )
+        val painter = rememberAsyncImagePainter(topFiftyCharts.images?.first()?.url ?: "")
         Image(
             painter,
             topFiftyCharts.images?.first()?.url
