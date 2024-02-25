@@ -12,8 +12,6 @@ import com.seiko.imageloader.ImageLoader
 import com.seiko.imageloader.LocalImageLoader
 import com.seiko.imageloader.cache.memory.maxSizePercent
 import com.seiko.imageloader.component.setupDefaultComponents
-import com.seiko.imageloader.util.DebugLogger
-import com.seiko.imageloader.util.LogPriority
 
 
 @Composable
@@ -22,7 +20,6 @@ fun MainAndroid(root: MusicRootImpl) {
         val context = LocalContext.current
         CompositionLocalProvider(
             LocalImageLoader provides ImageLoader {
-                logger = DebugLogger(LogPriority.VERBOSE)
                 components {
                     setupDefaultComponents(context)
                 }

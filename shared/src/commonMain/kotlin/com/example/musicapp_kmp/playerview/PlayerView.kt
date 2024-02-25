@@ -24,7 +24,7 @@ import com.example.musicapp_kmp.decompose.PlayerComponent
 import com.example.musicapp_kmp.network.models.topfiftycharts.Item
 import com.example.musicapp_kmp.player.MediaPlayerController
 import com.example.musicapp_kmp.player.MediaPlayerListener
-import com.seiko.imageloader.rememberAsyncImagePainter
+import com.seiko.imageloader.rememberImagePainter
 
 
 @Composable
@@ -59,7 +59,7 @@ internal fun PlayerView(playerComponent: PlayerComponent) {
             .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 56.dp)
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
-            val painter = rememberAsyncImagePainter(
+            val painter = rememberImagePainter(
                 selectedTrack.track?.album?.images?.first()?.url.orEmpty()
             )
             Box(modifier = Modifier.clip(RoundedCornerShape(5.dp)).width(49.dp).height(49.dp)) {

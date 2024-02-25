@@ -1,6 +1,5 @@
 package com.example.musicapp_kmp
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Shapes
@@ -16,7 +15,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 internal fun MyApplicationTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit
+    content: @Composable () -> Unit
 ) {
     val colors = //if (darkTheme) {
         darkColors(

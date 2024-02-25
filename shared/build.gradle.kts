@@ -49,8 +49,9 @@ kotlin {
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
                 implementation("io.github.qdsfdhvh:image-loader:1.7.6")
-                api("com.arkivanov.decompose:decompose:3.0.0-alpha07")
-                implementation("com.arkivanov.essenty:lifecycle:1.3.0")
+                api("com.arkivanov.decompose:decompose:1.0.0-compose-experimental")
+                api("com.arkivanov.decompose:extensions-compose-jetbrains:1.0.0-compose-experimental")
+                implementation("com.arkivanov.essenty:lifecycle:1.0.0")
             }
         }
         val androidMain by getting {

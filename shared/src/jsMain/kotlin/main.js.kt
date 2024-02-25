@@ -1,3 +1,5 @@
+package com.example.musicapp_kmp
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,16 +12,12 @@ import com.example.musicapp_kmp.decompose.MusicRoot
 import com.seiko.imageloader.ImageLoader
 import com.seiko.imageloader.LocalImageLoader
 import com.seiko.imageloader.cache.memory.maxSizePercent
-import com.seiko.imageloader.component.setupDefaultComponents
 
 
 @Composable
 fun CommonMainWeb(root: MusicRoot) {
     CompositionLocalProvider(
         LocalImageLoader provides ImageLoader {
-            components {
-                setupDefaultComponents(imageScope)
-            }
             interceptor {
                 memoryCacheConfig {
                     maxSizePercent(0.25)
