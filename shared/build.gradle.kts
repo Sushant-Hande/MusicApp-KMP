@@ -49,16 +49,16 @@ kotlin {
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
                 implementation("io.github.qdsfdhvh:image-loader:1.7.6")
-                api("com.arkivanov.decompose:decompose:1.0.0-compose-experimental")
-                api("com.arkivanov.decompose:extensions-compose-jetbrains:1.0.0-compose-experimental")
-                implementation("com.arkivanov.essenty:lifecycle:1.0.0")
+                api("com.arkivanov.decompose:decompose:2.2.2")
+                api("com.arkivanov.decompose:extensions-compose-jetbrains:2.2.2-compose-experimental")
+                implementation("com.arkivanov.essenty:lifecycle:1.3.0")
             }
         }
         val androidMain by getting {
             dependencies {
-                api("androidx.activity:activity-compose:1.6.1")
+                api("androidx.activity:activity-compose:1.8.2")
                 api("androidx.appcompat:appcompat:1.6.1")
-                api("androidx.core:core-ktx:1.9.0")
+                api("androidx.core:core-ktx:1.12.0")
             }
         }
         val iosX64Main by getting

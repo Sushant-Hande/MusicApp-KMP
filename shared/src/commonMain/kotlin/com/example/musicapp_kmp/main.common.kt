@@ -22,7 +22,7 @@ internal fun MainCommon(
 ) {
     val dialogOverlay by rootComponent.dialogOverlay.subscribeAsState()
 
-    MyApplicationTheme {
+    MusicAppTheme {
         Box(modifier = Modifier.fillMaxSize()) {
             Box(modifier = Modifier.fillMaxSize()) {
                 Children(

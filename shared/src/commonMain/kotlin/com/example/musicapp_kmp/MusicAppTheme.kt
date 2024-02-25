@@ -14,10 +14,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-internal fun MyApplicationTheme(
+internal fun MusicAppTheme(
     content: @Composable () -> Unit
 ) {
-    val colors = //if (darkTheme) {
+    val colors =
         darkColors(
             primary = Color(0xFF1D2123),
             primaryVariant = Color(0xFF3700B3),
@@ -25,15 +25,8 @@ internal fun MyApplicationTheme(
             surface = Color(0xFF1E1E1E),
             background = Color(0xFF1E1E1E),
             onSurface = Color(0xFF1E1E1E),
-            // onSurface = Color.White//Color(0x1E1E1E)
         )
-//    } else {
-//        lightColors(
-//            primary = Color(0xFF6200EE),
-//            primaryVariant = Color(0xFF3700B3),
-//            secondary = Color(0xFF03DAC5)
-//        )
-//    }
+
     val typography = Typography(
         body1 = TextStyle(
             fontFamily = FontFamily.Default, fontWeight = FontWeight.Normal, fontSize = 16.sp
