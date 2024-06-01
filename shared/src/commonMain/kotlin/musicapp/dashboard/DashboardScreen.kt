@@ -30,6 +30,10 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,14 +42,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.seiko.imageloader.rememberAsyncImagePainter
 import musicapp.decompose.DashboardMainComponent
 import musicapp.network.models.featuredplaylist.FeaturedPlayList
 import musicapp.network.models.newreleases.NewReleasedAlbums
 import musicapp.network.models.topfiftycharts.TopFiftyCharts
-import com.seiko.imageloader.rememberAsyncImagePainter
 import musicapp_kmp.shared.generated.resources.Res
 import musicapp_kmp.shared.generated.resources.explore_details
-import musicapp_kmp.shared.generated.resources.favorite
 import musicapp_kmp.shared.generated.resources.featured_playlist
 import musicapp_kmp.shared.generated.resources.likes
 import musicapp_kmp.shared.generated.resources.new_releases
@@ -189,6 +192,8 @@ internal fun FeaturedPlayLists(
                         .background(Color(0xFF1A1E1F))
                         .clickable(onClick = { navigateToDetails(playList.id.orEmpty()) })
                 ) {
+                    var isFavorite by rememberSaveable { mutableStateOf(false) }
+
                     Column(
                         modifier = Modifier.padding(16.dp)
                     ) {
@@ -227,11 +232,13 @@ internal fun FeaturedPlayLists(
                         )
                     }
                     Icon(
-                        imageVector = Icons.Default.Favorite,
+                        imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Filled.FavoriteBorder,
                         tint = Color(0xFFFACD66),
-                        contentDescription = stringResource(Res.string.favorite),
+                        contentDescription = "Favorite",
                         modifier = Modifier.padding(top = 16.dp, end = 16.dp).size(30.dp)
-                            .align(Alignment.TopEnd)
+                            .align(Alignment.TopEnd).clickable {
+                                isFavorite = !isFavorite
+                            }
                     )
                 }
             }
