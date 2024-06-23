@@ -33,5 +33,6 @@ data class Item(
     @SerialName("type")
     val type: String?,
     @SerialName("uri")
-    val uri: String?
+    val uri: String?,
+    var isFavorite: Boolean = false
 )

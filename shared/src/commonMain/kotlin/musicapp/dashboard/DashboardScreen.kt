@@ -43,6 +43,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.seiko.imageloader.rememberAsyncImagePainter
+import musicapp.cache.FavoritePlayList
 import musicapp.decompose.DashboardMainComponent
 import musicapp.network.models.featuredplaylist.FeaturedPlayList
 import musicapp.network.models.newreleases.NewReleasedAlbums
@@ -69,7 +70,7 @@ internal fun DashboardScreen(dashboardMainComponent: DashboardMainComponent) {
         is DashboardViewState.Failure -> Failure(resultedState.error)
         DashboardViewState.Loading -> Loading()
         is DashboardViewState.Success -> {
-            DashboardView(resultedState) {
+            DashboardView(resultedState, dashboardMainComponent.viewModel) {
                 dashboardMainComponent.onOutPut(DashboardMainComponent.Output.PlaylistSelected(it))
             }
         }
@@ -100,6 +101,7 @@ internal fun Failure(message: String) {
 @Composable
 internal fun DashboardView(
     dashboardState: DashboardViewState.Success,
+    dashboardViewModel: DashboardViewModel,
     navigateToDetails: (String) -> Unit
 ) {
     val listState = rememberScrollState()
@@ -109,7 +111,25 @@ internal fun DashboardView(
             .padding(bottom = 32.dp)
     ) {
         TopChartView(dashboardState.topFiftyCharts, navigateToDetails)
-        FeaturedPlayLists(dashboardState.featuredPlayList, navigateToDetails)
+        FeaturedPlayLists(
+            dashboardState.featuredPlayList,
+            navigateToDetails,
+            addPlayListToFavorite = { href ->
+                dashboardViewModel.saveFavoritePlayList(
+                    FavoritePlayList(
+                        href = href!!,
+                        isFavorite = true
+                    )
+                )
+            },
+            removePlayListFromFavorite = { href ->
+                dashboardViewModel.removePlayListFromFavorite(
+                    FavoritePlayList(
+                        href = href!!,
+                        isFavorite = true
+                    )
+                )
+            })
         NewReleases(dashboardState.newReleasedAlbums, navigateToDetails)
     }
 }
@@ -167,7 +187,9 @@ internal fun TopChartView(topFiftyCharts: TopFiftyCharts, navigateToDetails: (St
 @Composable
 internal fun FeaturedPlayLists(
     featuredPlayList: FeaturedPlayList,
-    navigateToDetails: (String) -> Unit
+    navigateToDetails: (String) -> Unit,
+    addPlayListToFavorite: (href: String?) -> Unit,
+    removePlayListFromFavorite: (href: String?) -> Unit
 ) {
     Column(modifier = Modifier.padding(top = 46.dp)) {
         Text(
@@ -192,7 +214,7 @@ internal fun FeaturedPlayLists(
                         .background(Color(0xFF1A1E1F))
                         .clickable(onClick = { navigateToDetails(playList.id.orEmpty()) })
                 ) {
-                    var isFavorite by rememberSaveable { mutableStateOf(false) }
+                    var isFavorite by rememberSaveable { mutableStateOf(playList.isFavorite) }
 
                     Column(
                         modifier = Modifier.padding(16.dp)
@@ -237,6 +259,11 @@ internal fun FeaturedPlayLists(
                         contentDescription = "Favorite",
                         modifier = Modifier.padding(top = 16.dp, end = 16.dp).size(30.dp)
                             .align(Alignment.TopEnd).clickable {
+                                if (isFavorite) {
+                                    removePlayListFromFavorite(playList.href)
+                                } else {
+                                    addPlayListToFavorite(playList.href)
+                                }
                                 isFavorite = !isFavorite
                             }
                     )

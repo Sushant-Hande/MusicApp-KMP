@@ -26,6 +26,8 @@ import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.arkivanov.essenty.parcelable.ParcelableContainer
 import com.arkivanov.essenty.statekeeper.StateKeeperDispatcher
 import musicapp.CommonMainDesktop
+import musicapp.cache.Database
+import musicapp.cache.DesktopDatabaseDriverFactory
 import musicapp.decompose.MusicRootImpl
 import musicapp.network.SpotifyApiImpl
 import musicapp.player.MediaPlayerController
@@ -48,7 +50,8 @@ fun main() {
                 stateKeeper = stateKeeper,
             ),
             api = SpotifyApiImpl(),
-            mediaPlayerController = MediaPlayerController(PlatformContext())
+            mediaPlayerController = MediaPlayerController(PlatformContext()),
+            database = Database(DesktopDatabaseDriverFactory())
         )
     }
 

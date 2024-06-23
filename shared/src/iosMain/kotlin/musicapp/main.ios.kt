@@ -18,6 +18,8 @@ import com.seiko.imageloader.cache.memory.maxSizePercent
 import com.seiko.imageloader.component.setupDefaultComponents
 import com.seiko.imageloader.util.DebugLogger
 import com.seiko.imageloader.util.LogPriority
+import musicapp.cache.Database
+import musicapp.cache.IOSDatabaseDriverFactory
 import musicapp.decompose.MusicRootImpl
 import musicapp.network.SpotifyApiImpl
 import musicapp.player.MediaPlayerController
@@ -30,7 +32,8 @@ fun MainiOS(
     val rootComponent = MusicRootImpl(
         componentContext = DefaultComponentContext(lifecycle = lifecycle),
         api = SpotifyApiImpl(),
-        mediaPlayerController = MediaPlayerController(PlatformContext())
+        mediaPlayerController = MediaPlayerController(PlatformContext()),
+        database = Database(IOSDatabaseDriverFactory())
     )
 
     Column(Modifier.background(color = Color(0xFF1A1E1F))) {

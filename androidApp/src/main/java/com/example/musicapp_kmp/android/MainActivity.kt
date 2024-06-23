@@ -6,6 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.core.view.WindowCompat
 import com.arkivanov.decompose.defaultComponentContext
 import musicapp.MainAndroid
+import musicapp.cache.AndroidDatabaseDriverFactory
+import musicapp.cache.Database
 import musicapp.decompose.MusicRootImpl
 import musicapp.network.SpotifyApiImpl
 import musicapp.player.MediaPlayerController
@@ -21,7 +23,8 @@ class MainActivity : ComponentActivity() {
         val root = MusicRootImpl(
             componentContext = defaultComponentContext(),
             api = api,
-            mediaPlayerController = MediaPlayerController(PlatformContext(applicationContext))
+            mediaPlayerController = MediaPlayerController(PlatformContext(applicationContext)),
+            database = Database(AndroidDatabaseDriverFactory(applicationContext))
         )
         setContent {
             MainAndroid(root)

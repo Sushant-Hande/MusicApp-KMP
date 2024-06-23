@@ -7,6 +7,7 @@ plugins {
     id("com.android.library")
     id("kotlin-parcelize")
     id("org.jetbrains.compose")
+    id("app.cash.sqldelight")
 }
 
 val ktorVersion = extra["ktor.version"]
@@ -91,12 +92,20 @@ kotlin {
         androidMain {
             dependencies {
                 implementation("androidx.media3:media3-exoplayer:1.3.0")
+                implementation("app.cash.sqldelight:android-driver:2.0.2")
+            }
+        }
+
+        iosMain {
+            dependencies {
+                implementation("app.cash.sqldelight:native-driver:2.0.2")
             }
         }
 
         desktopMain.dependencies {
             implementation(compose.desktop.common)
             implementation("uk.co.caprica:vlcj:4.8.2")
+            implementation("app.cash.sqldelight:sqlite-driver:2.0.2")
         }
 
         jsMain.dependencies {
@@ -112,5 +121,13 @@ android {
     compileSdk = 34
     defaultConfig {
         minSdk = 24
+    }
+}
+
+sqldelight {
+    databases {
+        create("MusicDatabase") {
+            packageName.set("musicapp.cache")
+        }
     }
 }

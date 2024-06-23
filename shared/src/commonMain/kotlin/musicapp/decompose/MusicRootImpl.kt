@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.serializer
+import musicapp.cache.Database
 import musicapp.network.SpotifyApi
 import musicapp.network.models.topfiftycharts.Item
 import musicapp.player.MediaPlayerController
@@ -32,6 +33,7 @@ class MusicRootImpl(
     private val chartDetails: (
         ComponentContext, playlistId: String, playingTrackId: String, chatDetailsInput: SharedFlow<ChartDetailsComponent.Input>, (ChartDetailsComponent.Output) -> Unit
     ) -> ChartDetailsComponent,
+    private val database: Database? = null
 ) : MusicRoot, ComponentContext by componentContext {
 
     //to keep track of the playing track
@@ -42,12 +44,15 @@ class MusicRootImpl(
     constructor(
         componentContext: ComponentContext,
         api: SpotifyApi,
-        mediaPlayerController: MediaPlayerController
-    ) : this(componentContext = componentContext,
+        mediaPlayerController: MediaPlayerController,
+        database: Database? = null
+    ) : this(
+        componentContext = componentContext,
         mediaPlayerController = mediaPlayerController,
         dashboardMain = { childContext, output ->
             DashboardMainComponentImpl(
-                componentContext = childContext, spotifyApi = api, output = output
+                componentContext = childContext, spotifyApi = api, output = output,
+                database = database
             )
         },
         chartDetails = { childContext, playlistId, playingTrackId, chartDetailsInput, output ->
@@ -113,7 +118,12 @@ class MusicRootImpl(
             is ChartDetailsComponent.Output.OnTrackSelected -> {
                 dialogNavigation.activate(DialogConfig(output.playlist, output.trackId))
                 CoroutineScope(Dispatchers.Default).launch {
-                    musicPlayerInput.emit(PlayerComponent.Input.PlayTrack(output.trackId, output.playlist))
+                    musicPlayerInput.emit(
+                        PlayerComponent.Input.PlayTrack(
+                            output.trackId,
+                            output.playlist
+                        )
+                    )
                 }
             }
         }

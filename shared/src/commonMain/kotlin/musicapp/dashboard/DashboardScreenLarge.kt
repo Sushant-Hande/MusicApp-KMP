@@ -29,9 +29,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.seiko.imageloader.rememberAsyncImagePainter
+import musicapp.cache.FavoritePlayList
 import musicapp.decompose.DashboardMainComponent
 import musicapp.network.models.topfiftycharts.TopFiftyCharts
-import com.seiko.imageloader.rememberAsyncImagePainter
 import musicapp_kmp.shared.generated.resources.Res
 import musicapp_kmp.shared.generated.resources.explore_details
 import musicapp_kmp.shared.generated.resources.likes
@@ -54,7 +55,8 @@ internal fun DashboardScreenLarge(
         DashboardViewState.Loading -> Loading()
         is DashboardViewState.Success -> {
             DashboardViewLarge(
-                resultedState
+                resultedState,
+                component.viewModel
             ) { component.onOutPut(DashboardMainComponent.Output.PlaylistSelected(it)) }
         }
     }
@@ -62,7 +64,9 @@ internal fun DashboardScreenLarge(
 
 @Composable
 internal fun DashboardViewLarge(
-    dashboardState: DashboardViewState.Success, navigateToDetails: (String) -> Unit
+    dashboardState: DashboardViewState.Success,
+    dashboardViewModel: DashboardViewModel,
+    navigateToDetails: (String) -> Unit
 ) {
     val listState = rememberScrollState()
     Column(
@@ -70,7 +74,21 @@ internal fun DashboardViewLarge(
             .verticalScroll(listState).padding(bottom = 32.dp)
     ) {
         TopChartViewLarge(dashboardState.topFiftyCharts, navigateToDetails)
-        FeaturedPlayLists(dashboardState.featuredPlayList, navigateToDetails)
+        FeaturedPlayLists(dashboardState.featuredPlayList, navigateToDetails, addPlayListToFavorite = { href ->
+            dashboardViewModel.saveFavoritePlayList(
+                FavoritePlayList(
+                    href = href!!,
+                    isFavorite = true
+                )
+            )
+        }, removePlayListFromFavorite = { href ->
+            dashboardViewModel.removePlayListFromFavorite(
+                FavoritePlayList(
+                    href = href!!,
+                    isFavorite = true
+                )
+            )
+        })
         NewReleases(dashboardState.newReleasedAlbums, navigateToDetails)
     }
 }

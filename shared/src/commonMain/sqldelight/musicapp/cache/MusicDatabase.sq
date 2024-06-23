@@ -1,0 +1,18 @@
+import kotlin.Boolean;
+
+CREATE TABLE FAVORITE_PLAYLIST (
+href TEXT NOT NULL PRIMARY KEY,
+isFavorite INTEGER AS Boolean NOT NULL DEFAULT 0
+);
+
+selectFavoritePlayList:
+SELECT FAVORITE_PLAYLIST.*
+FROM FAVORITE_PLAYLIST;
+
+insertFavoritePlayList:
+INSERT INTO FAVORITE_PLAYLIST
+VALUES (?, ?);
+
+deletePlayListFromFavorite:
+DELETE FROM FAVORITE_PLAYLIST
+WHERE href=?;
