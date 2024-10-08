@@ -59,11 +59,15 @@ class DashboardViewModel(api: SpotifyApi, val database: Database? = null) :
     }
 
     fun saveFavoritePlayList(favoritePlayList: FavoritePlayList) {
-        database?.saveFavoritePlayList(favoritePlayList)
+        viewModelScope.launch {
+            database?.saveFavoritePlayList(favoritePlayList)
+        }
     }
 
     fun removePlayListFromFavorite(favoritePlayList: FavoritePlayList) {
-        database?.deleteFavoritePlayList(favoritePlayList.href)
+        viewModelScope.launch {
+            database?.deleteFavoritePlayList(favoritePlayList.href)
+        }
     }
 
     override fun onDestroy() {

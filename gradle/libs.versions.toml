@@ -11,6 +11,7 @@ media3="1.3.0"
 kotlinx-serialization ="1.6.3"
 vlcj = "4.8.2"
 image-loader="1.2.10"
+sqldelight="2.0.2"
 
 # Android
 androidx-activity-compose="1.8.2"
@@ -24,6 +25,10 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 
 # Media3
 androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "media3" }
+
+sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight"}
+sqldelight-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight"}
+sqldelight-sqlite = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight"}
 
 #essenty
 essenty-lifecycle={ module = "com.arkivanov.essenty:lifecycle", version.ref = "essenty"}
@@ -67,6 +72,7 @@ kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref 
 kotlin-parcelize={id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+sqldelight = {id="app.cash.sqldelight", version.ref = "sqldelight"}
 
 
 
