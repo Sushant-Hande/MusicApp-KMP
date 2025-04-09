@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.compose.compiler)
+    id("org.jetbrains.kotlinx.kover") version "0.9.1"
 }
 
 kotlin {
