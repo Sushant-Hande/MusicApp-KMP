@@ -4,9 +4,27 @@
     <meta charset="UTF-8">
     <title>Music-App KMP</title>
     <script src="skiko.js"></script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            overscroll-behavior: none;
+            background-color: #000;
+        }
+        #ComposeTarget {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            touch-action: none;
+        }
+    </style>
 </head>
 <body>
-<canvas id="ComposeTarget"></canvas>
+<div id="ComposeTarget"></div>
 <script src="webApp.js"></script>
 </body>
 </html>

@@ -23,7 +23,7 @@ fun main() {
             )
 
         lifecycle.resume()
-        ComposeViewport("MusicApp-KMP") {
+        ComposeViewport("ComposeTarget") {
             CommonMainWeb(rootComponent)
         }
     }
