@@ -7,7 +7,7 @@ plugins {
 
 kotlin {
     js(IR) {
-        moduleName = "webApp"
+        outputModuleName = "webApp"
         browser {
             commonWebpackConfig {
                 outputFileName = "webApp.js"

@@ -1,16 +1,9 @@
 package musicapp.playerview
 
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
+import kotlinx.coroutines.*
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.ExperimentalTime
 
 class CountdownViewModel : InstanceKeeper.Instance {
 
@@ -18,15 +11,16 @@ class CountdownViewModel : InstanceKeeper.Instance {
         exception.printStackTrace()
     }
 
-    private var job  = SupervisorJob()
+    private var job = SupervisorJob()
     private val viewModelScope = CoroutineScope(Dispatchers.Main + coroutineExceptionHandler + job)
 
+    @OptIn(ExperimentalTime::class)
     fun startCountdown(initialMillis: Long, intervalMillis: Long, onCountDownFinish: () -> Unit) {
-        val targetTime = Clock.System.now() + initialMillis.milliseconds
+        val targetTime = kotlin.time.Clock.System.now() + initialMillis.milliseconds
 
         viewModelScope.launch {
             while (true) {
-                val now = Clock.System.now()
+                val now = kotlin.time.Clock.System.now()
                 val millisUntilFinished = (targetTime - now).inWholeMilliseconds
 
                 if (millisUntilFinished <= 0) {
